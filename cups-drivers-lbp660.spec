@@ -3,7 +3,7 @@
 Summary:	Linux Canon LBP-460/660 driver
 Name:		cups-drivers-%{rname}
 Version:	0.2.4
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group:		System/Printing
 URL:		http://www.boichat.ch/nicolas/lbp660/
@@ -17,12 +17,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 %description
 In this package there is a linux driver for the Canon LBP-660 and
 LBP-460 printers.
-
-Most of my work is based on Rildo Pragana's driver for Samsung ML-85G,
-see : http://pragana.net - "Adventures in Linux Programming".
-
-It should support both A4 and Letter sized paper, but I only tested it
-with A4 sized paper.
 
 This package contains CUPS drivers (PPD) for the following printers:
 
