@@ -12,7 +12,6 @@ Requires:	cups
 Conflicts:	cups-drivers = 2007
 Conflicts:	printer-utils = 2007
 Conflicts:	printer-filters = 2007
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 In this package there is a linux driver for the Canon LBP-660 and
