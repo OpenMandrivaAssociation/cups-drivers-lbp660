@@ -3,16 +3,17 @@
 Summary:	Linux Canon LBP-460/660 driver
 Name:		cups-drivers-%{rname}
 Version:	0.2.4
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	GPL
 Group:		System/Printing
 URL:		http://www.boichat.ch/nicolas/lbp660/
 Source0:	http://www.boichat.ch/nicolas/lbp660/lbp660-%{version}.tar.bz2
+Patch0:		lbp660-0.2.4-LDFLAGS.diff
 Requires:	cups
 Conflicts:	cups-drivers = 2007
 Conflicts:	printer-utils = 2007
 Conflicts:	printer-filters = 2007
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 In this package there is a linux driver for the Canon LBP-660 and
@@ -26,10 +27,11 @@ This package contains CUPS drivers (PPD) for the following printers:
 %prep
 
 %setup -q -n %{rname}-%{version}
+%patch0 -p0
 
 %build
 
-%make CFLAGS="%{optflags}"
+%make CFLAGS="%{optflags}" LDFLAGS="%{ldflags}"
 
 # Correct PPD files to pass "cupstestppd"
 perl -p -i -e "s/DefaultNoReset/DefaultAlwaysReset/" ppd/*.ppd
