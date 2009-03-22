@@ -2,13 +2,13 @@
 
 Summary:	Linux Canon LBP-460/660 driver
 Name:		cups-drivers-%{rname}
-Version:	0.2.4
-Release:	%mkrel 7
+Version:	0.3.1
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Printing
 URL:		http://www.boichat.ch/nicolas/lbp660/
-Source0:	http://www.boichat.ch/nicolas/lbp660/lbp660-%{version}.tar.bz2
-Patch0:		lbp660-0.2.4-LDFLAGS.diff
+Source0:	http://www.boichat.ch/nicolas/lbp660/lbp660-%{version}.tar.gz
+Patch0:		lbp660-0.3.1-ldflags.patch
 Requires:	cups
 Conflicts:	cups-drivers = 2007
 Conflicts:	printer-utils = 2007
@@ -27,7 +27,7 @@ This package contains CUPS drivers (PPD) for the following printers:
 %prep
 
 %setup -q -n %{rname}-%{version}
-%patch0 -p0
+%patch0 -p1 -b .ldflags
 
 %build
 
@@ -45,7 +45,7 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_datadir}/cups/model/%{rname}
 
-install -m0755 %{rname} %{buildroot}%{_bindir}/
+install -m0755 lbp[46]60 %{buildroot}%{_bindir}/
 install -m0755 lbp[46]60-* %{buildroot}%{_bindir}/
 install -m0644 ppd/*.ppd %{buildroot}%{_datadir}/cups/model/%{rname}/
 
@@ -59,6 +59,7 @@ rm -rf %{buildroot}
 # Therefore SUID "root" is needed. Program only executable by "lp" & "root"
 # (group-executable).
 %attr(4750,root,sys) %{_bindir}/%{rname}
+%attr(4750,root,sys) %{_bindir}/lbp460
 %attr(0755,root,root) %{_bindir}/lbp[46]60-*
 %attr(0755,root,root) %dir %{_datadir}/cups/model/%{rname}
 %attr(0644,root,root) %{_datadir}/cups/model/%{rname}/Canon-LBP-460-lbp460.ppd*
