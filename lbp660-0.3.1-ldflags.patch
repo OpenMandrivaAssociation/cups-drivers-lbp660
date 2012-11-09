@@ -1,0 +1,24 @@
+diff -p -up lbp660-0.3.1/Makefile.orig lbp660-0.3.1/Makefile
+--- lbp660-0.3.1/Makefile.orig	2005-08-16 15:30:29.000000000 -0300
++++ lbp660-0.3.1/Makefile	2009-03-22 03:20:45.000000000 -0300
+@@ -5,17 +5,18 @@
+ CC=gcc
+ #CFLAGS=-O2 -g
+ CFLAGS=-O2 -s
++LDFLAGS=
+ 
+ RELEASE=0.3.1
+ 
+ all: lbp660 lbp460
+ 
+ lbp660: lbp660.c lbp660.h Makefile
+-	${CC} ${INCLUDE} ${CFLAGS} lbp660.c -o lbp660
++	${CC} ${INCLUDE} ${CFLAGS} ${LDFLAGS} lbp660.c -o lbp660
+ 	chmod +s lbp660
+ 
+ lbp460: lbp460.c Makefile
+-	${CC} ${INCLUDE} ${CFLAGS} lbp460.c -o lbp460
++	${CC} ${INCLUDE} ${CFLAGS} ${LDFLAGS} lbp460.c -o lbp460
+ 	chmod +s lbp460
+ 
+ cups-install: install foomatic 
