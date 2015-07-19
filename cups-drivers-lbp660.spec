@@ -3,7 +3,7 @@
 Summary:	Linux Canon LBP-460/660 driver
 Name:		cups-drivers-%{rname}
 Version:	0.3.1
-Release:	13
+Release:	14
 License:	GPLv2
 Group:		System/Printing
 Url:		http://www.boichat.ch/nicolas/lbp660/
