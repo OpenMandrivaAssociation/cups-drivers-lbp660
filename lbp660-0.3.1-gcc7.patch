@@ -1,0 +1,20 @@
+--- lbp660-0.3.1/lbp660.c.gcc7	2005-08-02 15:45:22.000000000 +0200
++++ lbp660-0.3.1/lbp660.c	2017-09-28 11:59:23.000099557 +0200
+@@ -115,7 +115,7 @@
+ 
+ char gname[20];
+ 
+-void INLINE errorexit();
++void errorexit();
+ 
+ int lines_by_page = LINES_BY_PAGE660;
+ 
+@@ -399,7 +399,7 @@
+    }
+ }
+ 
+-void INLINE errorexit() {
++void errorexit() {
+ #ifdef DEBUG
+    int* i = 0;
+    (*i)++;
