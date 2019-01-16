@@ -9,8 +9,9 @@ Group:		System/Printing
 Url:		http://www.boichat.ch/nicolas/lbp660/
 Source0:	http://www.boichat.ch/nicolas/lbp660/lbp660-%{version}.tar.gz
 Patch0:		lbp660-0.3.1-ldflags.patch
+Patch1: lbp660-0.3.1-gcc7.patch
 Requires:	cups
-ExclusiveArch:	%{ix86} x86_64
+ExclusiveArch:	%{ix86} %{x86_64}
 
 %description
 In this package there is a linux driver for the Canon LBP-660 and
@@ -23,11 +24,10 @@ This package contains CUPS drivers (PPD) for the following printers:
 
 %prep
 
-%setup -qn %{rname}-%{version}
-%patch0 -p1 -b .ldflags
+%autosetup -n %{rname}-%{version} -p1
 
 %build
-%make CFLAGS="%{optflags}" LDFLAGS="%{ldflags}"
+%make_build CFLAGS="%{optflags}" LDFLAGS="%{ldflags}"
 
 # Correct PPD files to pass "cupstestppd"
 sed -i -e "s/DefaultNoReset/DefaultAlwaysReset/" ppd/*.ppd
@@ -36,7 +36,6 @@ sed -i -e "s/DefaultNoReset/DefaultAlwaysReset/" ppd/*.ppd
 sed -i -e "s:/tmp/lbp.60.log:/dev/null:" ppd/*.ppd
 
 %install
-
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_datadir}/cups/model/%{rname}
 
