@@ -1,0 +1,158 @@
+diff -up lbp660-0.3.1/lbp460.c.omv~ lbp660-0.3.1/lbp460.c
+diff -up lbp660-0.3.1/lbp660.c.omv~ lbp660-0.3.1/lbp660.c
+--- lbp660-0.3.1/lbp660.c.omv~	2019-03-22 01:37:40.686072975 +0100
++++ lbp660-0.3.1/lbp660.c	2019-03-22 01:39:10.714110464 +0100
+@@ -389,7 +389,7 @@ compress_bitmap () {
+ 
+ /* End of Rildo Pragana constants and functions */
+ 
+-void INLINE ssleep(const int usec) {
++static void ssleep(const int usec) {
+    gettimeofday(&lasttv, NULL);
+    while (1) {
+       gettimeofday(&newtv, NULL);
+@@ -410,19 +410,19 @@ void errorexit() {
+    exit(1);
+ }
+ 
+-void INLINE dataout(int data) {
++static void dataout(int data) {
+ 	outb(data, DATA);
+ }
+ 
+-void INLINE ctrlout(int cmd) {
++static void ctrlout(int cmd) {
+ 	outb(cmd, CONTROL);
+ }
+ 
+-int INLINE ctrlin() {
++static int ctrlin() {
+ 	return inb(CONTROL);
+ }
+ 
+-void INLINE checkctrl(int control) {
++static void checkctrl(int control) {
+ 	int ctrl = inb(CONTROL);
+ 	if ((ctrl & 0x1f) != (control & 0x1f)) {
+ 		fprintf(stderr,  "Error, wrong control : %x instead of %x\n", ctrl, control);
+@@ -430,11 +430,11 @@ void INLINE checkctrl(int control) {
+ 	}
+ }
+ 
+-int INLINE statusin() {
++static int statusin() {
+ 	return inb(STATUS);
+ }
+ 
+-void INLINE checkstatus(int status) {
++static void checkstatus(int status) {
+ 	int stat = statusin();
+ 	if ((stat & 0xf8) != (status & 0xf8)) {
+ 		fprintf(stderr,  "Error, wrong status : %x instead of %x\n", stat, status);
+@@ -442,7 +442,7 @@ void INLINE checkstatus(int status) {
+ 	}
+ }
+ 
+-int INLINE cmdout(int cmd) {
++static int cmdout(int cmd) {
+    int stat;   
+    ctrlout(cmd);
+    ssleep(1);
+@@ -451,7 +451,7 @@ int INLINE cmdout(int cmd) {
+ 	return stat;
+ }
+ 
+-void INLINE checkcmdout(int cmd, int status, int mask) {
++static void checkcmdout(int cmd, int status, int mask) {
+    int stat = cmdout(cmd);
+ 	if ((stat & mask) != (status & mask)) {
+ 		fprintf(stderr,  "Error, wrong status (checkcmdout) : %x instead of %x (mask : %x)\n", stat, status, mask);
+@@ -459,7 +459,7 @@ void INLINE checkcmdout(int cmd, int sta
+ 	}
+ }
+ 
+-int INLINE cmddataouts(int cmd, int data, int sleep) {
++static int cmddataouts(int cmd, int data, int sleep) {
+    int stat;   
+    ctrlout(cmd);
+    ssleep(sleep);
+@@ -469,11 +469,11 @@ int INLINE cmddataouts(int cmd, int data
+ 	return stat;
+ }
+ 
+-int INLINE cmddataout(int cmd, int data) {
++static int cmddataout(int cmd, int data) {
+    cmddataouts(cmd, data, 10);
+ }
+ 
+-void INLINE checkcmddataouts(int cmd, int data, int status, int mask, int sleep) {
++static void checkcmddataouts(int cmd, int data, int status, int mask, int sleep) {
+    int stat = cmddataouts(cmd, data, sleep);
+ 	if ((stat & mask) != (status & mask)) {
+ 		fprintf(stderr,  "Error, wrong status (checkcmddataout) : %x instead of %x (mask : %x)\n", stat, status, mask);
+@@ -481,11 +481,11 @@ void INLINE checkcmddataouts(int cmd, in
+ 	}
+ }
+ 
+-void INLINE checkcmddataout(int cmd, int data, int status, int mask) {
++static void checkcmddataout(int cmd, int data, int status, int mask) {
+    checkcmddataouts(cmd, data, status, mask, 15);
+ }
+ 
+-void INLINE data6out(int data) {
++static void data6out(int data) {
+    //fprintf(stderr,  "6 O0,%x\n", data);
+    // Must be : cmdout(2, 4[e6])
+    checkcmddataout(0x06, data, 0x70, 0x70);
+@@ -498,7 +498,7 @@ void INLINE data6out(int data) {
+    //fprintf(stderr, "data6 : 0x%x -> 0x%x\n", data, statusin());
+ }
+ 
+-void INLINE data64out(int* data, int start, int end) {
++static void data64out(int* data, int start, int end) {
+    int i;
+    // Must be : cmdout(2, 4[e6])
+    checkcmddataout(0x06, data[start], 0x70, 0x70);
+diff -up lbp660-0.3.1/lbp660.h.omv~ lbp660-0.3.1/lbp660.h
+diff -up lbp660-0.3.1/lbp460.c.omv~ lbp660-0.3.1/lbp460.c
+--- lbp660-0.3.1/lbp460.c.omv~	2019-03-22 01:40:32.231351584 +0100
++++ lbp660-0.3.1/lbp460.c	2019-03-22 01:40:49.412683061 +0100
+@@ -436,17 +436,17 @@ void ssleep(const int usec)
+ 	} while (time < usec);
+ }
+ 
+-inline void dataout(int data)
++static void dataout(int data)
+ {
+ 	outb(data, DATA);
+ }
+ 
+-inline void ctrlout(int cmd)
++static void ctrlout(int cmd)
+ {
+ 	outb(cmd, CONTROL);
+ }
+ 
+-inline int ctrlin()
++static int ctrlin()
+ {
+ 	return inb(CONTROL);
+ }
+@@ -460,7 +460,7 @@ void checkctrl(int control)
+ 	}
+ }
+ 
+-inline int statusin()
++static int statusin()
+ {
+ 	return inb(STATUS);
+ }
+@@ -515,7 +515,7 @@ void checkcmddataouts(int cmd, int data,
+ 	}
+ }
+ 
+-inline void checkcmddataout(int cmd, int data, int status, int mask)
++static void checkcmddataout(int cmd, int data, int status, int mask)
+ {
+ 	checkcmddataouts(cmd, data, status, mask, 15);
+ }
