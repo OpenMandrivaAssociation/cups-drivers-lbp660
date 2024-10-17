@@ -6,7 +6,7 @@ Version:	0.3.1
 Release:	20
 License:	GPLv2
 Group:		System/Printing
-Url:		http://www.boichat.ch/nicolas/lbp660/
+Url:		https://www.boichat.ch/nicolas/lbp660/
 Source0:	http://www.boichat.ch/nicolas/lbp660/lbp660-%{version}.tar.gz
 Patch0:		lbp660-0.3.1-ldflags.patch
 Patch1: lbp660-0.3.1-gcc7.patch
