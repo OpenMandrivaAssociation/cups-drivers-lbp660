@@ -13,6 +13,7 @@ Patch1: lbp660-0.3.1-gcc7.patch
 Patch2:	lbp660-compile.patch
 Requires:	cups
 
+BuildRequires:	make
 %description
 In this package there is a linux driver for the Canon LBP-660 and
 LBP-460 printers.
